@@ -7,7 +7,8 @@ import { useVideoSimulation } from './hooks/useVideoSimulation';
 export default function App() {
   const { scrollYProgress } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  const [initialIsMuted] = useState(() => typeof window !== 'undefined' ? window.self !== window.top : true);
+  const [isMuted, setIsMuted] = useState(initialIsMuted);
   
   const videoSectionRef = useRef(null);
   const iframeRef = useRef(null);
@@ -147,7 +148,7 @@ export default function App() {
             ref={iframeRef}
             width="100%" 
             height="100%" 
-            src={`https://www.youtube.com/embed/LbnpmXXnE_E?mute=${isMuted ? 1 : 0}&controls=0&rel=0&modestbranding=1&loop=1&playlist=LbnpmXXnE_E&cc_load_policy=0&enablejsapi=1`} 
+            src={`https://www.youtube.com/embed/LbnpmXXnE_E?mute=${initialIsMuted ? 1 : 0}&controls=0&rel=0&modestbranding=1&loop=1&playlist=LbnpmXXnE_E&cc_load_policy=0&enablejsapi=1`} 
             title="Audio Vision App" 
             frameBorder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
