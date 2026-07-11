@@ -28,6 +28,38 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Auto-scroll logic for portfolio embed
+  useEffect(() => {
+    const isAutoScroll = new URLSearchParams(window.location.search).get('autoScroll') === 'true';
+    if (isAutoScroll) {
+      let scrollFrame;
+      let delayTimeout;
+      let isScrolling = true;
+      
+      const startScroll = () => {
+        const docHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight);
+        const winHeight = window.innerHeight;
+        
+        if (window.scrollY + winHeight >= docHeight - 10) {
+          window.scrollTo(0, 0); // Reset
+          isScrolling = false;
+          delayTimeout = setTimeout(() => { isScrolling = true; }, 2000);
+        } else if (isScrolling) {
+          window.scrollBy(0, 3);
+        }
+        scrollFrame = requestAnimationFrame(startScroll);
+      };
+      
+      // Wait 2 seconds before starting auto-scroll
+      delayTimeout = setTimeout(startScroll, 2000);
+
+      return () => {
+        if (scrollFrame) cancelAnimationFrame(scrollFrame);
+        if (delayTimeout) clearTimeout(delayTimeout);
+      };
+    }
+  }, []);
+
   // Parallax effects for Hero
   const opacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.15], [1, 0.95]);
@@ -69,7 +101,7 @@ export default function App() {
       <nav className={`fixed top-0 left-0 right-0 z-50 px-6 py-4 transition-all duration-300 ${isScrolled ? 'glass-panel' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center cursor-pointer">
-            <img src="/assets/remove-bg-logo.png" alt="Audio Vision Logo" className="w-10 h-10 object-contain" />
+            <img src={import.meta.env.BASE_URL + "assets/remove-bg-logo.png"} alt="Audio Vision Logo" className="w-10 h-10 object-contain" />
           </div>
           <span className="font-semibold text-lg tracking-tight">
             Audio Vision
@@ -104,7 +136,7 @@ export default function App() {
           transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="mt-20 w-full max-w-5xl mx-auto z-10"
         >
-          <MobileMockup imageSrc="/assets/welcome-onboarding-introduction screen.webp" className="!w-[340px] !h-[700px]" />
+          <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/welcome-onboarding-introduction screen.webp"} className="!w-[340px] !h-[700px]" />
         </motion.div>
       </section>
 
@@ -172,7 +204,7 @@ export default function App() {
                  <p className="text-xl text-[#86868b] max-w-md mx-auto md:mx-0">Understand your surroundings instantly. Our advanced AI scans your environment and provides clear auditory feedback.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="flex-1 w-full flex justify-center translate-y-12 group-hover:translate-y-8 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc="/assets/feat-realtime-object-detection.webp" />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-realtime-object-detection.webp"} />
               </motion.div>
           </motion.div>
 
@@ -189,7 +221,7 @@ export default function App() {
                  <p className="text-[#86868b] text-lg">Turn-by-turn auditory directions.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="w-full flex justify-center translate-y-6 group-hover:translate-y-2 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc="/assets/feat-route-guidance.jpg" className="scale-[0.85] origin-top" />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-route-guidance.jpg"} className="scale-[0.85] origin-top" />
               </motion.div>
           </motion.div>
           
@@ -206,7 +238,7 @@ export default function App() {
                  <p className="text-[#86868b] text-lg">Multi-sensory vibrations.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="w-full flex justify-center translate-y-12 group-hover:translate-y-8 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc="/assets/feat-audio-vibrations-feedbacl.webp" className="scale-[0.85] origin-top" />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-audio-vibrations-feedbacl.webp"} className="scale-[0.85] origin-top" />
               </motion.div>
           </motion.div>
 
@@ -219,7 +251,7 @@ export default function App() {
             className="bento-card col-span-1 md:col-span-2 p-10 flex flex-col md:flex-row items-center gap-8 group min-h-[500px] overflow-hidden"
           >
               <motion.div variants={slideUpImage} className="flex-1 w-full flex justify-center translate-y-12 group-hover:translate-y-8 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc="/assets/feat-auto-command-multi-language-support.jpg" className="scale-[0.85] origin-top" />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-auto-command-multi-language-support.jpg"} className="scale-[0.85] origin-top" />
               </motion.div>
               <motion.div variants={fadeUp} className="flex-1 space-y-6 z-10 text-center md:text-left">
                  <h3 className="text-4xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight leading-tight">Multi-language support.</h3>
@@ -240,7 +272,7 @@ export default function App() {
                  <p className="text-xl text-[#86868b] max-w-md mx-auto md:mx-0">Easily share your real-time location with friends and family for added safety and peace of mind.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="flex-1 w-full flex justify-center translate-y-12 group-hover:translate-y-8 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc="/assets/feat-share-location.jpg" />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-share-location.jpg"} />
               </motion.div>
           </motion.div>
 
@@ -257,7 +289,7 @@ export default function App() {
                  <p className="text-[#86868b] text-lg">Know exactly where you are.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="w-full flex justify-center translate-y-6 group-hover:translate-y-2 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc="/assets/feat-location-tracking.jpg" className="scale-[0.85] origin-top" />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-location-tracking.jpg"} className="scale-[0.85] origin-top" />
               </motion.div>
           </motion.div>
 
