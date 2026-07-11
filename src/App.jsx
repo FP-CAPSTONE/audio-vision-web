@@ -124,7 +124,7 @@ export default function App() {
           transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="mt-20 w-full max-w-5xl mx-auto z-10"
         >
-          <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/welcome-onboarding-introduction screen.webp"} className="max-w-[340px]" />
+          <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/welcome-onboarding-introduction screen.webp"} className="!max-w-[280px] md:!max-w-[340px]" />
         </motion.div>
       </section>
 
@@ -197,7 +197,7 @@ export default function App() {
                  <p className="text-xl text-[#86868b] max-w-md mx-auto md:mx-0">Understand your surroundings instantly. Our advanced AI scans your environment and provides clear auditory feedback.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="flex-1 w-full flex justify-center translate-y-4 md:translate-y-12 group-hover:translate-y-2 md:group-hover:translate-y-8 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-realtime-object-detection.webp"} />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-realtime-object-detection.webp"} className="max-w-[220px] md:max-w-[290px]" />
               </motion.div>
           </motion.div>
 
@@ -214,7 +214,7 @@ export default function App() {
                  <p className="text-[#86868b] text-lg">Turn-by-turn auditory directions.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="w-full flex justify-center translate-y-2 md:translate-y-6 group-hover:translate-y-0 md:group-hover:translate-y-2 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-route-guidance.jpg"} className="scale-[0.85] origin-top" />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-route-guidance.jpg"} className="max-w-[200px] md:max-w-[260px] origin-top" />
               </motion.div>
           </motion.div>
           
@@ -231,7 +231,7 @@ export default function App() {
                  <p className="text-[#86868b] text-lg">Multi-sensory vibrations.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="w-full flex justify-center translate-y-4 md:translate-y-12 group-hover:translate-y-2 md:group-hover:translate-y-8 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-audio-vibrations-feedbacl.webp"} className="scale-[0.85] origin-top" />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-audio-vibrations-feedbacl.webp"} className="max-w-[200px] md:max-w-[260px] origin-top" />
               </motion.div>
           </motion.div>
 
@@ -244,7 +244,7 @@ export default function App() {
             className="bento-card col-span-1 md:col-span-2 p-10 flex flex-col md:flex-row items-center gap-8 group min-h-[500px] overflow-hidden"
           >
               <motion.div variants={slideUpImage} className="flex-1 w-full flex justify-center translate-y-4 md:translate-y-12 group-hover:translate-y-2 md:group-hover:translate-y-8 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-auto-command-multi-language-support.jpg"} className="scale-[0.85] origin-top" />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-auto-command-multi-language-support.jpg"} className="max-w-[200px] md:max-w-[260px] origin-top" />
               </motion.div>
               <motion.div variants={fadeUp} className="flex-1 space-y-6 z-10 text-center md:text-left">
                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight leading-tight">Multi-language support.</h3>
@@ -265,7 +265,7 @@ export default function App() {
                  <p className="text-xl text-[#86868b] max-w-md mx-auto md:mx-0">Easily share your real-time location with friends and family for added safety and peace of mind.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="flex-1 w-full flex justify-center translate-y-4 md:translate-y-12 group-hover:translate-y-2 md:group-hover:translate-y-8 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-share-location.jpg"} />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-share-location.jpg"} className="max-w-[220px] md:max-w-[290px]" />
               </motion.div>
           </motion.div>
 
@@ -282,7 +282,7 @@ export default function App() {
                  <p className="text-[#86868b] text-lg">Know exactly where you are.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="w-full flex justify-center translate-y-2 md:translate-y-6 group-hover:translate-y-0 md:group-hover:translate-y-2 transition-transform duration-700 ease-out">
-                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-location-tracking.jpg"} className="scale-[0.85] origin-top" />
+                 <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-location-tracking.jpg"} className="max-w-[200px] md:max-w-[260px] origin-top" />
               </motion.div>
           </motion.div>
 
