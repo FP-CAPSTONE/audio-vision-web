@@ -7,7 +7,7 @@ import { useVideoSimulation } from './hooks/useVideoSimulation';
 export default function App() {
   const { scrollYProgress } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMuted, setIsMuted] = useState(() => window.self !== window.top);
+  const [isMuted, setIsMuted] = useState(true);
   
   const videoSectionRef = useRef(null);
   const iframeRef = useRef(null);
