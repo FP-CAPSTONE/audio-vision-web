@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { ArrowRight, Volume2, VolumeX } from 'lucide-react';
 import MobileMockup from './components/MobileMockup';
+import { useVideoSimulation } from './hooks/useVideoSimulation';
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -10,7 +11,7 @@ export default function App() {
   
   const videoSectionRef = useRef(null);
   const iframeRef = useRef(null);
-  const isVideoInView = useInView(videoSectionRef, { margin: "-100px", amount: 0.3 });
+  const isVideoInView = useInView(videoSectionRef, { margin: "-100px" });
 
   useEffect(() => {
     if (iframeRef.current && iframeRef.current.contentWindow) {
@@ -29,9 +30,15 @@ export default function App() {
         func: isMuted ? 'unMute' : 'mute',
         args: []
       }), '*');
+      iframeRef.current.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
       setIsMuted(!isMuted);
     }
   };
+
+  const isAutoScroll = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('autoScroll') === 'true' : false;
+  const { zoomLevel: simulationZoom } = useVideoSimulation(isAutoScroll, videoSectionRef, toggleMute);
+  
+  const finalZoomLevel = isAutoScroll ? simulationZoom : (isVideoInView ? 1.15 : 1);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,38 +46,6 @@ export default function App() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Auto-scroll logic for portfolio embed
-  useEffect(() => {
-    const isAutoScroll = new URLSearchParams(window.location.search).get('autoScroll') === 'true';
-    if (isAutoScroll) {
-      let scrollFrame;
-      let delayTimeout;
-      let isScrolling = true;
-      
-      const startScroll = () => {
-        const docHeight = Math.max(document.body.scrollHeight, document.body.offsetHeight);
-        const winHeight = window.innerHeight;
-        
-        if (window.scrollY + winHeight >= docHeight - 10) {
-          window.scrollTo(0, 0); // Reset
-          isScrolling = false;
-          delayTimeout = setTimeout(() => { isScrolling = true; }, 2000);
-        } else if (isScrolling) {
-          window.scrollBy(0, 3);
-        }
-        scrollFrame = requestAnimationFrame(startScroll);
-      };
-      
-      // Wait 2 seconds before starting auto-scroll
-      delayTimeout = setTimeout(startScroll, 2000);
-
-      return () => {
-        if (scrollFrame) cancelAnimationFrame(scrollFrame);
-        if (delayTimeout) clearTimeout(delayTimeout);
-      };
-    }
   }, []);
 
   // Parallax effects for Hero
@@ -131,12 +106,12 @@ export default function App() {
           transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="max-w-4xl mx-auto space-y-6"
         >
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-none">
+          <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-none">
             Vision.<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-800 to-gray-400">Reimagined.</span>
           </h1>
           
-          <p className="text-xl md:text-3xl font-medium text-[#86868b] max-w-2xl mx-auto tracking-tight pt-4">
+          <p className="text-lg sm:text-xl md:text-3xl font-medium text-[#86868b] max-w-2xl mx-auto tracking-tight pt-4 px-4">
             A revolutionary platform built to assist the visually impaired. Navigate your world with confidence.
           </p>
         </motion.div>
@@ -162,7 +137,11 @@ export default function App() {
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         className="relative z-10 px-6 max-w-6xl mx-auto mb-32"
       >
-        <div className="rounded-[2.5rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-[#e5e5ea] bg-black aspect-video relative group">
+        <motion.div 
+          animate={{ scale: finalZoomLevel }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="rounded-[2.5rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.08)] border border-[#e5e5ea] bg-black aspect-video relative group"
+        >
           
           <iframe 
             ref={iframeRef}
@@ -188,7 +167,7 @@ export default function App() {
             </span>
           </div>
 
-        </div>
+        </motion.div>
       </motion.section>
 
       {/* Bento Grid Section */}
@@ -200,7 +179,7 @@ export default function App() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-20"
         >
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-[#1d1d1f]">Innovation for everyone.</h2>
+          <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter text-[#1d1d1f]">Innovation for everyone.</h2>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -214,7 +193,7 @@ export default function App() {
             className="bento-card col-span-1 md:col-span-2 lg:col-span-2 p-10 md:p-16 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group min-h-[500px]"
           >
               <motion.div variants={fadeUp} className="z-10 flex-1 space-y-6 text-center md:text-left">
-                 <h3 className="text-4xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight leading-tight">Real-time object detection.</h3>
+                 <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight leading-tight">Real-time object detection.</h3>
                  <p className="text-xl text-[#86868b] max-w-md mx-auto md:mx-0">Understand your surroundings instantly. Our advanced AI scans your environment and provides clear auditory feedback.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="flex-1 w-full flex justify-center translate-y-12 group-hover:translate-y-8 transition-transform duration-700 ease-out">
@@ -268,7 +247,7 @@ export default function App() {
                  <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-auto-command-multi-language-support.jpg"} className="scale-[0.85] origin-top" />
               </motion.div>
               <motion.div variants={fadeUp} className="flex-1 space-y-6 z-10 text-center md:text-left">
-                 <h3 className="text-4xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight leading-tight">Multi-language support.</h3>
+                 <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight leading-tight">Multi-language support.</h3>
                  <p className="text-[#86868b] text-xl">Speak your language naturally. Audio Vision understands you globally with automated voice commands.</p>
               </motion.div>
           </motion.div>
@@ -282,7 +261,7 @@ export default function App() {
             className="bento-card col-span-1 md:col-span-2 lg:col-span-2 p-10 md:p-16 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group min-h-[500px]"
           >
               <motion.div variants={fadeUp} className="z-10 flex-1 space-y-6 text-center md:text-left">
-                 <h3 className="text-4xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight leading-tight">Share your journey.</h3>
+                 <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1d1d1f] tracking-tight leading-tight">Share your journey.</h3>
                  <p className="text-xl text-[#86868b] max-w-md mx-auto md:mx-0">Easily share your real-time location with friends and family for added safety and peace of mind.</p>
               </motion.div>
               <motion.div variants={slideUpImage} className="flex-1 w-full flex justify-center translate-y-12 group-hover:translate-y-8 transition-transform duration-700 ease-out">
@@ -318,9 +297,9 @@ export default function App() {
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         className="mt-32 pt-20 pb-10 px-6 border-t border-[#e5e5ea]"
       >
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Experience independence.</h2>
-          <p className="text-xl text-[#86868b]">Audio Vision brings the world closer to you.</p>
+        <div className="max-w-4xl mx-auto text-center space-y-8 px-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">Experience independence.</h2>
+          <p className="text-lg sm:text-xl text-[#86868b]">Audio Vision brings the world closer to you.</p>
         </div>
       </motion.section>
     </div>
