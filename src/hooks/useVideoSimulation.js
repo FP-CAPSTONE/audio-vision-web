@@ -39,7 +39,7 @@ export const useVideoSimulation = (isAutoScroll, videoSectionRef, toggleMute) =>
         delayTimeout = setTimeout(() => { isScrolling = true; startScroll(); }, 2500);
         return;
       } else if (isScrolling) {
-        const speed = window.innerWidth < 768 ? 2.5 : 4;
+        const speed = window.innerWidth < 768 ? 1 : 2.5;
         window.scrollBy(0, speed);
       }
       scrollFrame = requestAnimationFrame(startScroll);
