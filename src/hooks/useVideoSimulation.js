@@ -57,7 +57,7 @@ export const useVideoSimulation = (isAutoScroll, videoSectionRef, toggleMute) =>
       // 4. Resume scrolling
       sequenceTimeouts.push(setTimeout(() => {
         setSimulationDone(true);
-      }, 4500));
+      }, 5500));
     };
     
     // Initial delay
