@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { ArrowRight, Volume2, VolumeX } from 'lucide-react';
 import MobileMockup from './components/MobileMockup';
 
@@ -7,7 +7,20 @@ export default function App() {
   const { scrollYProgress } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  
+  const videoSectionRef = useRef(null);
   const iframeRef = useRef(null);
+  const isVideoInView = useInView(videoSectionRef, { margin: "-100px", amount: 0.3 });
+
+  useEffect(() => {
+    if (iframeRef.current && iframeRef.current.contentWindow) {
+      if (isVideoInView) {
+        iframeRef.current.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+      } else {
+        iframeRef.current.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      }
+    }
+  }, [isVideoInView]);
 
   const toggleMute = () => {
     if (iframeRef.current) {
@@ -142,6 +155,7 @@ export default function App() {
 
       {/* Cinematic Video Section */}
       <motion.section 
+        ref={videoSectionRef}
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -154,7 +168,7 @@ export default function App() {
             ref={iframeRef}
             width="100%" 
             height="100%" 
-            src="https://www.youtube.com/embed/LbnpmXXnE_E?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&loop=1&playlist=LbnpmXXnE_E&cc_load_policy=0&enablejsapi=1" 
+            src="https://www.youtube.com/embed/LbnpmXXnE_E?mute=1&controls=0&rel=0&modestbranding=1&loop=1&playlist=LbnpmXXnE_E&cc_load_policy=0&enablejsapi=1" 
             title="Audio Vision App" 
             frameBorder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
