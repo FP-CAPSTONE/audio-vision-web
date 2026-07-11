@@ -147,7 +147,7 @@ export default function App() {
             ref={iframeRef}
             width="100%" 
             height="100%" 
-            src={`https://www.youtube.com/embed/LbnpmXXnE_E?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&rel=0&modestbranding=1&loop=1&playlist=LbnpmXXnE_E&cc_load_policy=0&enablejsapi=1`} 
+            src={`https://www.youtube.com/embed/LbnpmXXnE_E?mute=${isMuted ? 1 : 0}&controls=0&rel=0&modestbranding=1&loop=1&playlist=LbnpmXXnE_E&cc_load_policy=0&enablejsapi=1`} 
             title="Audio Vision App" 
             frameBorder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
