@@ -124,7 +124,7 @@ export default function App() {
           transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="mt-20 w-full max-w-5xl mx-auto z-10"
         >
-          <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/welcome-onboarding-introduction screen.webp"} className="!max-w-[280px] md:!max-w-[340px]" />
+          <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/welcome-onboarding-introduction screen.webp"} className="md:!max-w-[340px]" />
         </motion.div>
       </section>
 
