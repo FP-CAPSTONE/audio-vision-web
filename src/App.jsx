@@ -230,7 +230,7 @@ export default function App() {
                  <h3 className="text-3xl font-bold text-[#1d1d1f] tracking-tight">Haptic Feedback.</h3>
                  <p className="text-[#86868b] text-lg">Multi-sensory vibrations.</p>
               </motion.div>
-              <motion.div variants={slideUpImage} className="w-full flex justify-center translate-y-4 md:translate-y-12 group-hover:translate-y-2 md:group-hover:translate-y-8 transition-transform duration-700 ease-out">
+              <motion.div variants={slideUpImage} className="w-full flex justify-center translate-y-2 md:translate-y-6 group-hover:translate-y-0 md:group-hover:translate-y-2 transition-transform duration-700 ease-out">
                  <MobileMockup imageSrc={import.meta.env.BASE_URL + "assets/feat-audio-vibrations-feedbacl.webp"} className="max-w-[200px] md:max-w-[260px] origin-top" />
               </motion.div>
           </motion.div>
